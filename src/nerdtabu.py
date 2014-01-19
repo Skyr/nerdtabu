@@ -81,36 +81,59 @@ def repaint_round(settings, card):
 
 def play_round(settings, current_team, cards):
     global screen
+    opposite_team = (current_team+1)%len(settings.teams)
     start_time = time.time() * 1000
     round_time_left = settings.timeLimit * 1000
     last_sec_display = -1
     run_loop = True
     number_width = settings.number[0].get_width()
     number_height = settings.number[0].get_height()
+    is_paused = False
 
     card = cards.pop()
     repaint_round(settings, card)
- 
+
     while run_loop:
         time.sleep(0.01)
-        remaining_time = start_time + round_time_left - time.time() * 1000
-        run_loop = (remaining_time > 0)
-        if (int(remaining_time/1000)!=last_sec_display):
-            # Update time display
-            last_sec_display = int(remaining_time/1000)
-            screen.blit(settings.number[(last_sec_display/10)%10],
-                    (settings.countdown_x, settings.countdown_y))
-            screen.blit(settings.number[last_sec_display%10],
-                    (settings.countdown_x + number_width, settings.countdown_y))
-            pygame.display.update((settings.countdown_x, settings.countdown_y,
-                2*number_width, number_height))
+        if not is_paused:
+            remaining_time = start_time + round_time_left - time.time() * 1000
+            run_loop = (remaining_time > 0)
+            if (int(remaining_time/1000)!=last_sec_display):
+                # Update time display
+                last_sec_display = int(remaining_time/1000)
+                screen.blit(settings.number[(last_sec_display/10)%10],
+                        (settings.countdown_x, settings.countdown_y))
+                screen.blit(settings.number[last_sec_display%10],
+                        (settings.countdown_x + number_width, settings.countdown_y))
+                pygame.display.update((settings.countdown_x, settings.countdown_y,
+                    2*number_width, number_height))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run_loop = False
-            # TODO: Keypress "pause"
-            # TODO: Keypress "correct"
-            # TODO: Keypress "oops"
-            # TODO: Keypress "abort"
+            elif event.type == pygame.KEYDOWN:
+                if event.key==pygame.K_SPACE or event.key==pygame.K_p:
+                    # Pause
+                    is_paused = not is_paused
+                    print is_paused
+                    if is_paused:
+                        round_time_left = remaining_time
+                    else:
+                        start_time = time.time() * 1000
+                elif event.key==pygame.K_y or event.key==pygame.K_n:
+                    if event.key==pygame.K_y:
+                        # Correct
+                        settings.score[current_team] = settings.score[current_team] + 1
+                    else:
+                        # Oops
+                        settings.score[opposite_team] = settings.score[opposite_team] + 1
+                    if len(cards)>0:
+                        # Next card
+                        card = cards.pop()
+                        repaint_round(settings, card)
+                    else:
+                        run_loop = False
+                elif event.key==pygame.K_ESCAPE:
+                    run_loop = False
 
 
 def show_final_scores(settings):
