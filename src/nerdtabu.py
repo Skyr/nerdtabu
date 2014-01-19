@@ -137,7 +137,33 @@ def play_round(settings, current_team, cards):
 
 
 def show_final_scores(settings):
-    pass
+    global screen
+    font = pygame.font.SysFont("None", 32)
+
+    screen.fill([0,0,0])
+
+    display_scores(settings)
+
+    if (settings.score[0]==settings.score[1]):
+        info1 = font.render("It's a draw!", True, (255,0,0))
+        screen.blit(info1, ((screen.get_width() - info1.get_width())/2,100))
+    else:
+        winner_team = 0 if settings.score[0]>settings.score[1] else 1
+        info1 = font.render(settings.teams[winner_team], True, (255,0,0))
+        info2 = font.render("Congratulations!", True, (255,0,0))
+        screen.blit(info1, ((screen.get_width() - info1.get_width())/2,100))
+        screen.blit(info2, ((screen.get_width() - info2.get_width())/2,100 + info1.get_height() + 10))
+
+    pygame.display.update()
+
+    run_loop = True
+    while run_loop:
+        time.sleep(0.05)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run_loop = False
+            elif event.type == pygame.KEYDOWN:
+                run_loop = False
 
 
 def main():
