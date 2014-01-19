@@ -15,10 +15,9 @@ def modify_settings(settings):
     pass
 
 
-def team_get_ready(settings, current_team):
+def display_scores(settings):
     global screen
     font = pygame.font.SysFont("None", 32)
-    screen.fill([0,0,0])
 
     team = font.render(settings.teams[0], True, (255,255,255))
     score = font.render(str(settings.score[0]), True, (255,255,255))
@@ -29,6 +28,14 @@ def team_get_ready(settings, current_team):
     score = font.render(str(settings.score[1]), True, (255,255,255))
     screen.blit(team, (screen.get_width()-team.get_width(), 0))
     screen.blit(score, (screen.get_width() - (team.get_width() + score.get_width())/2, team.get_height() + 5))
+
+
+def team_get_ready(settings, current_team):
+    global screen
+    font = pygame.font.SysFont("None", 32)
+    screen.fill([0,0,0])
+
+    display_scores(settings)
 
     info1 = font.render(settings.teams[current_team], True, (255,0,0))
     info2 = font.render("Get ready!", True, (255,0,0))
@@ -51,8 +58,25 @@ def team_get_ready(settings, current_team):
 
 
 def display_card(settings, card):
-    # TODO: Display answer and forbidden words
-    pass
+    answer_font = pygame.font.SysFont("None", 48)
+    forbidden_font = pygame.font.SysFont("None", 32)
+    y = settings.card_y
+
+    info = answer_font.render(card, True, (255,255,255))
+    screen.blit(info, (settings.card_x, y))
+    y = y + info.get_height()*1.3
+
+    for word in settings.questions[card]:
+        info = forbidden_font.render(word, True, (255,255,255))
+        screen.blit(info, (settings.card_x, y))
+        y = y + info.get_height() + 10
+
+
+def repaint_round(settings, card):
+    screen.fill([0,0,0])
+    display_scores(settings)
+    display_card(settings, card)
+    pygame.display.update()
 
 
 def play_round(settings, current_team, cards):
@@ -63,9 +87,10 @@ def play_round(settings, current_team, cards):
     run_loop = True
     number_width = settings.number[0].get_width()
     number_height = settings.number[0].get_height()
-    screen.fill([0,0,0])
-    display_card(settings, cards[0])
-    pygame.display.update()
+
+    card = cards.pop()
+    repaint_round(settings, card)
+ 
     while run_loop:
         time.sleep(0.01)
         remaining_time = start_time + round_time_left - time.time() * 1000
@@ -86,7 +111,6 @@ def play_round(settings, current_team, cards):
             # TODO: Keypress "correct"
             # TODO: Keypress "oops"
             # TODO: Keypress "abort"
-    cards.pop()
 
 
 def show_final_scores(settings):

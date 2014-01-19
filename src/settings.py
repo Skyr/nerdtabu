@@ -9,6 +9,8 @@ class Settings:
     score = [ 0, 0 ]
     questions = { }
     number = [ ]
+    card_x = 100
+    card_y = 50
     countdown_x = 600
     countdown_y = 500
 
