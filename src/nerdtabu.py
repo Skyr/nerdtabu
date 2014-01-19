@@ -19,9 +19,24 @@ def team_get_ready(settings, current_team):
     global screen
     font = pygame.font.SysFont("None", 32)
     screen.fill([0,0,0])
-    screen.blit(font.render(settings.teams[current_team], True, (255,0,0)), (100,100))
-    screen.blit(font.render("Get ready!", True, (255,0,0)), (100,300))
+
+    team = font.render(settings.teams[0], True, (255,255,255))
+    score = font.render(str(settings.score[0]), True, (255,255,255))
+    screen.blit(team, (0,0))
+    screen.blit(score, ((team.get_width() - score.get_width())/2, team.get_height() + 5))
+
+    team = font.render(settings.teams[1], True, (255,255,255))
+    score = font.render(str(settings.score[1]), True, (255,255,255))
+    screen.blit(team, (screen.get_width()-team.get_width(), 0))
+    screen.blit(score, (screen.get_width() - (team.get_width() + score.get_width())/2, team.get_height() + 5))
+
+    info1 = font.render(settings.teams[current_team], True, (255,0,0))
+    info2 = font.render("Get ready!", True, (255,0,0))
+    screen.blit(info1, ((screen.get_width() - info1.get_width())/2,100))
+    screen.blit(info2, ((screen.get_width() - info2.get_width())/2,100 + info1.get_height() + 10))
+
     pygame.display.update()
+
     run_loop = True
     while run_loop:
         time.sleep(0.05)
