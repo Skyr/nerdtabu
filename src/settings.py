@@ -21,7 +21,7 @@ class Settings:
     def load_data(self):
         self.number = [ ]
         for n in range(10):
-            self.number = self.number + [ pygame.image.load("%s/numbers/%d.png" % (self.datadir, n)).convert() ]
+            self.number = self.number + [ pygame.image.load("%s/numbers/%d.png" % (self.datadir, n)).convert_alpha() ]
 
     def get_random_cards(self):
         cards = self.questions.keys()
