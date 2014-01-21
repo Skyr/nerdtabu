@@ -139,6 +139,7 @@ def play_round(theme, settings, current_team, cards):
                         # Next card
                         card = cards.pop()
                         repaint_round(theme, settings, card)
+                        last_sec_display = -1
                     else:
                         run_loop = False
                 elif event.key==pygame.K_ESCAPE:
