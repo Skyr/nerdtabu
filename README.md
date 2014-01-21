@@ -19,4 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # Image credits
 
 * Nixie tube numbers [CC by-sa Hellbus](http://en.wikipedia.org/wiki/File:Nixie2.gif)
+* Metal Brushes by [Arkyrra](http://arkyrra.deviantart.com/art/Arc-s-Rivets-Metal-Brushes-63621015)
+* Texture by [markpiet](http://markpiet.deviantart.com/art/FREE-TEXTURE-METAL-1010-203041970)
 

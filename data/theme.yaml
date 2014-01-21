@@ -1,0 +1,19 @@
+team_a:
+  x: 35
+  y: 31
+  width: 382
+  height: 156
+team_b:
+  x: 861
+  y: 31
+  width: 382
+  height: 156
+main:
+  x: 33
+  y: 262
+  width: 1208
+  height: 543
+countdown:
+  x: 902
+  y: 836
+  width: 346
