@@ -114,7 +114,6 @@ def play_round(settings, current_team, cards):
                 if event.key==pygame.K_SPACE or event.key==pygame.K_p:
                     # Pause
                     is_paused = not is_paused
-                    print is_paused
                     if is_paused:
                         round_time_left = remaining_time
                     else:
