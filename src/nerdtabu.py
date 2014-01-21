@@ -6,41 +6,52 @@ import time
 import pygame
 
 from settings import Settings
+from theme import Theme
 
 
 screen = None
+
+
+def blit_centered(rect, elements, spacing):
+    global screen
+    total_height = (len(elements)-1) * spacing
+    for el in elements:
+        total_height = total_height + el.get_height()
+    offset = rect.y + (rect.height - total_height)/2
+    for i in range(len(elements)):
+        el = elements[i]
+        screen.blit(el, (rect.x + (rect.width - el.get_width())/2, offset))
+        offset = offset + el.get_height() + spacing
 
 
 def modify_settings(settings):
     pass
 
 
-def display_scores(settings):
+def display_scores(theme, settings):
     global screen
     font = pygame.font.SysFont("None", 32)
 
     team = font.render(settings.teams[0], True, (255,255,255))
     score = font.render(str(settings.score[0]), True, (255,255,255))
-    screen.blit(team, (0,0))
-    screen.blit(score, ((team.get_width() - score.get_width())/2, team.get_height() + 5))
+    blit_centered(theme.team_rect[0], [team, score], score.get_height()/4)
 
     team = font.render(settings.teams[1], True, (255,255,255))
     score = font.render(str(settings.score[1]), True, (255,255,255))
-    screen.blit(team, (screen.get_width()-team.get_width(), 0))
-    screen.blit(score, (screen.get_width() - (team.get_width() + score.get_width())/2, team.get_height() + 5))
+    blit_centered(theme.team_rect[1], [team, score], score.get_height()/4)
 
 
-def team_get_ready(settings, current_team):
+def team_get_ready(theme, settings, current_team):
     global screen
     font = pygame.font.SysFont("None", 32)
     screen.fill([0,0,0])
+    screen.blit(theme.bg, (0,0))
 
-    display_scores(settings)
+    display_scores(theme, settings)
 
     info1 = font.render(settings.teams[current_team], True, (255,0,0))
     info2 = font.render("Get ready!", True, (255,0,0))
-    screen.blit(info1, ((screen.get_width() - info1.get_width())/2,100))
-    screen.blit(info2, ((screen.get_width() - info2.get_width())/2,100 + info1.get_height() + 10))
+    blit_centered(theme.main_rect, [info1, info2], info1.get_height()/3)
 
     pygame.display.update()
 
@@ -57,41 +68,41 @@ def team_get_ready(settings, current_team):
                     run_loop = False
 
 
-def display_card(settings, card):
+def display_card(theme, settings, card):
     answer_font = pygame.font.SysFont("None", 48)
     forbidden_font = pygame.font.SysFont("None", 32)
-    y = settings.card_y
+    y = theme.main_rect.y
 
     info = answer_font.render(card, True, (255,255,255))
-    screen.blit(info, (settings.card_x, y))
+    screen.blit(info, (theme.main_rect.x, y))
     y = y + info.get_height()*1.3
 
     for word in settings.questions[card]:
         info = forbidden_font.render(word, True, (255,255,255))
-        screen.blit(info, (settings.card_x, y))
+        screen.blit(info, (theme.main_rect.x, y))
         y = y + info.get_height() + 10
 
 
-def repaint_round(settings, card):
+def repaint_round(theme, settings, card):
     screen.fill([0,0,0])
-    display_scores(settings)
-    display_card(settings, card)
+    screen.blit(theme.bg, (0,0))
+    display_scores(theme, settings)
+    display_card(theme, settings, card)
     pygame.display.update()
 
 
-def play_round(settings, current_team, cards):
+def play_round(theme, settings, current_team, cards):
     global screen
     opposite_team = (current_team+1)%len(settings.teams)
     start_time = time.time() * 1000
     round_time_left = settings.timeLimit * 1000
     last_sec_display = -1
     run_loop = True
-    number_width = settings.number[0].get_width()
-    number_height = settings.number[0].get_height()
+    number_width = theme.number[0].get_width()
     is_paused = False
 
     card = cards.pop()
-    repaint_round(settings, card)
+    repaint_round(theme, settings, card)
 
     while run_loop:
         time.sleep(0.01)
@@ -101,12 +112,11 @@ def play_round(settings, current_team, cards):
             if (int(remaining_time/1000)!=last_sec_display):
                 # Update time display
                 last_sec_display = int(remaining_time/1000)
-                screen.blit(settings.number[(last_sec_display/10)%10],
-                        (settings.countdown_x, settings.countdown_y))
-                screen.blit(settings.number[last_sec_display%10],
-                        (settings.countdown_x + number_width, settings.countdown_y))
-                pygame.display.update((settings.countdown_x, settings.countdown_y,
-                    2*number_width, number_height))
+                screen.blit(theme.number[(last_sec_display/10)%10],
+                        (theme.countdown_rect.x, theme.countdown_rect.y))
+                screen.blit(theme.number[last_sec_display%10],
+                        (theme.countdown_rect.x + theme.countdown_rect.width - number_width, theme.countdown_rect.y))
+                pygame.display.update(theme.countdown_rect)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run_loop = False
@@ -128,30 +138,29 @@ def play_round(settings, current_team, cards):
                     if len(cards)>0:
                         # Next card
                         card = cards.pop()
-                        repaint_round(settings, card)
+                        repaint_round(theme, settings, card)
                     else:
                         run_loop = False
                 elif event.key==pygame.K_ESCAPE:
                     run_loop = False
 
 
-def show_final_scores(settings):
+def show_final_scores(theme, settings):
     global screen
     font = pygame.font.SysFont("None", 32)
 
     screen.fill([0,0,0])
+    screen.blit(theme.bg, (0,0))
 
-    display_scores(settings)
+    display_scores(theme, settings)
 
     if (settings.score[0]==settings.score[1]):
-        info1 = font.render("It's a draw!", True, (255,0,0))
-        screen.blit(info1, ((screen.get_width() - info1.get_width())/2,100))
+        blit_centered(theme.main_rect, [ font.render("It's a draw!", True, (255,0,0)) ], 0)
     else:
         winner_team = 0 if settings.score[0]>settings.score[1] else 1
         info1 = font.render(settings.teams[winner_team], True, (255,0,0))
         info2 = font.render("Congratulations!", True, (255,0,0))
-        screen.blit(info1, ((screen.get_width() - info1.get_width())/2,100))
-        screen.blit(info2, ((screen.get_width() - info2.get_width())/2,100 + info1.get_height() + 10))
+        blit_centered(theme.main_rect, [ info1, info2 ], info1.get_height()/3)
 
     pygame.display.update()
 
@@ -178,18 +187,19 @@ def main():
     # Update settings
     settings = Settings(args.quizfile, args.datadir)
     settings.teams = [ args.teamA, args.teamB ]
+    theme = Theme(args.datadir)
     # Initial game data
     cards = settings.get_random_cards()
     current_team = 0
     # Main game loop
     pygame.init()
-    screen = pygame.display.set_mode([1024,768]) # , pygame.FULLSCREEN)
-    settings.load_data()
+    screen = pygame.display.set_mode([1280,1024]) # , pygame.FULLSCREEN)
+    theme.load_data()
     while len(cards)>0:
-        team_get_ready(settings, current_team)
-        play_round(settings, current_team, cards)
+        team_get_ready(theme, settings, current_team)
+        play_round(theme, settings, current_team, cards)
         current_team = (current_team + 1) % len(settings.teams)
-    show_final_scores(settings)
+    show_final_scores(theme, settings)
     pygame.quit()
 
 

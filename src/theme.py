@@ -27,5 +27,7 @@ class Theme:
         self.number = [ ]
         for n in range(10):
             self.number = self.number + [ pygame.image.load("%s/numbers/%d.png" % (self.datadir, n)).convert_alpha() ]
+        self.countdown_rect = pygame.Rect(self.countdown_rect.x, self.countdown_rect.y,
+                self.countdown_rect.width, self.number[0].get_width())
         self.bg = pygame.image.load("%s/screen.jpg" % self.datadir).convert()
 
