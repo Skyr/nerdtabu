@@ -200,9 +200,9 @@ def main():
     # Main game loop
     pygame.init()
     if args.fullscreen:
-        screen = pygame.display.set_mode([1280,1024], pygame.FULLSCREEN)
+        screen = pygame.display.set_mode(theme.screen_size, pygame.FULLSCREEN)
     else:
-        screen = pygame.display.set_mode([1280,1024])
+        screen = pygame.display.set_mode(theme.screen_size)
     theme.load_data()
     while len(cards)>0:
         team_get_ready(theme, settings, current_team)

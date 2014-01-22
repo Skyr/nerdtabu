@@ -5,6 +5,7 @@ import pygame
 
 class Theme:
     number = [ ]
+    screen_size = [0,0]
     bg = None
     team_rect = [ ]
     main_rect = None
@@ -24,6 +25,7 @@ class Theme:
     def __init__(self, datadir):
         self.datadir = datadir
         self.themedata = yaml.safe_load(open("%s/theme.yaml" % datadir, 'r'))
+        self.screen_size = [ self.themedata['screen']['width'], self.themedata['screen']['height'] ]
         self.team_rect = [ ]
         self.team_rect.append(pygame.Rect(self.themedata['team_a']['x'], self.themedata['team_a']['y'],
                 self.themedata['team_a']['width'], self.themedata['team_a']['height']))
