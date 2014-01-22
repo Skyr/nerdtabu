@@ -67,16 +67,16 @@ def team_get_ready(theme, settings, current_team):
 
 
 def display_card(theme, settings, card):
-    y = theme.main_rect.y
+    lines = [ ]
 
     info = theme.main_headline_font.render(card, True, (255,255,255))
-    screen.blit(info, (theme.main_rect.x, y))
-    y = y + info.get_height()*1.3
+    lines.append(info)
 
     for word in settings.questions[card]:
         info = theme.main_font.render(word, True, (255,255,255))
-        screen.blit(info, (theme.main_rect.x, y))
-        y = y + info.get_height() + 10
+        lines.append(info)
+
+    blit_centered(theme.main_rect, lines, info.get_height()/4)
 
 
 def repaint_round(theme, settings, card):
