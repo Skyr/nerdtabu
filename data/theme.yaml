@@ -17,3 +17,18 @@ countdown:
   x: 902
   y: 836
   width: 346
+score_font:
+  name: fonts/kingthings.ttf
+  size: 48
+main_headline_font:
+  name: fonts/kingthings.ttf
+  size: 64
+main_font:
+  name: fonts/kingthings.ttf
+  size: 48
+score_sound: sounds/score.ogg
+taboo_sound: sounds/taboo.ogg
+clock_sound: sounds/clock.ogg
+clock_near_end_sound: sounds/nearend.ogg
+clock_end_sound: sounds/end.ogg
+
