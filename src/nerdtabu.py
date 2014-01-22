@@ -67,16 +67,30 @@ def team_get_ready(theme, settings, current_team):
 
 
 def display_card(theme, settings, card):
-    lines = [ ]
-
-    info = theme.main_headline_font.render(card, True, theme.main_headline_color)
-    lines.append(info)
-
+    guessword = theme.main_headline_font.render(card, True, theme.main_headline_color)
+    hints = [ ]
+    max_height = 0
     for word in settings.questions[card]:
-        info = theme.main_font.render(word, True, theme.main_color)
-        lines.append(info)
+        hint = theme.main_font.render(word, True, theme.main_color)
+        hints.append(hint)
+        if hint.get_height()>max_height:
+            max_height = hint.get_height()
+    spacing = max_height / 4
 
-    blit_centered(theme.main_rect, lines, info.get_height()/4)
+    if (guessword.get_height() + len(hints) * (max_height+spacing) > 0.8 * theme.main_rect.height):
+        # Two columns
+        if len(hints)%2==1:
+            hints.append(theme.main_font.render("", True, theme.main_color))
+        lines = len(hints)/2
+        height = guessword.get_height() + lines * (max_height + spacing)
+        y_offset = (theme.main_rect.height - height)/2
+        blit_centered(pygame.Rect(theme.main_rect.left, theme.main_rect.top + y_offset, theme.main_rect.width, guessword.get_height()), [guessword], 0)
+        y_offset = y_offset + guessword.get_height() + spacing
+        blit_centered(pygame.Rect(theme.main_rect.left, theme.main_rect.top + y_offset, theme.main_rect.width/2, lines * (max_height + spacing)), hints[0:lines], spacing)
+        blit_centered(pygame.Rect(theme.main_rect.left + theme.main_rect.width/2, theme.main_rect.top + y_offset, theme.main_rect.width/2, lines * (max_height + spacing)), hints[lines:], spacing)
+    else:
+        # One column
+        blit_centered(theme.main_rect, [guessword] + hints, spacing)
 
 
 def repaint_round(theme, settings, card):
