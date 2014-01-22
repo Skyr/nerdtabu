@@ -187,7 +187,8 @@ def main():
     parser.add_argument('quizfile', type=argparse.FileType('r'), help='Name of the quiz file')
     parser.add_argument('teamA', nargs='?', metavar='teamname_A', default='Team A', help='Name of team A')
     parser.add_argument('teamB', nargs='?', metavar='teamname_B', default='Team B', help='Name of team B')
-    parser.add_argument('--datadir', default='.', help='Resource directory')
+    parser.add_argument('-d', '--datadir', default='.', help='Resource directory')
+    parser.add_argument('-f', '--fullscreen', help='Run fullscreen', action='store_true')
     args = parser.parse_args()
     # Update settings
     settings = Settings(args.quizfile, args.datadir)
@@ -198,7 +199,10 @@ def main():
     current_team = 0
     # Main game loop
     pygame.init()
-    screen = pygame.display.set_mode([1280,1024]) # , pygame.FULLSCREEN)
+    if args.fullscreen:
+        screen = pygame.display.set_mode([1280,1024], pygame.FULLSCREEN)
+    else:
+        screen = pygame.display.set_mode([1280,1024])
     theme.load_data()
     while len(cards)>0:
         team_get_ready(theme, settings, current_team)
