@@ -10,8 +10,11 @@ class Theme:
     main_rect = None
     countdown_rect = None
     score_font = None
+    score_color = None
     main_headline_font = None
+    main_headline_color = None
     main_font = None
+    main_color = None
     score_sound = None
     taboo_sound = None
     clock_sound = None
@@ -34,6 +37,9 @@ class Theme:
     def load_font(self, name):
         return pygame.font.Font("%s/%s" % (self.datadir, self.themedata[name]['name']), self.themedata[name]['size'])
 
+    def get_color(self, name):
+        return pygame.Color(self.themedata[name]['r'],self.themedata[name]['g'],  self.themedata[name]['b'])
+
     def load_sound(self, name):
         return pygame.mixer.Sound(file = "%s/%s" % (self.datadir, self.themedata[name]))
 
@@ -45,8 +51,11 @@ class Theme:
                 self.countdown_rect.width, self.number[0].get_width())
         self.bg = pygame.image.load("%s/screen.jpg" % self.datadir).convert()
         self.score_font = self.load_font("score_font")
+        self.score_color = self.get_color("score_font")
         self.main_headline_font = self.load_font("main_headline_font")
+        self.main_headline_color = self.get_color("main_headline_font")
         self.main_font = self.load_font("main_font")
+        self.main_color = self.get_color("main_font")
         self.score_sound = self.load_sound("score_sound")
         self.taboo_sound = self.load_sound("taboo_sound")
         self.clock_sound = self.load_sound("clock_sound")

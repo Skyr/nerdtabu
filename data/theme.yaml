@@ -20,12 +20,21 @@ countdown:
 score_font:
   name: fonts/kingthings.ttf
   size: 48
+  r: 255
+  g: 255
+  b: 255
 main_headline_font:
   name: fonts/kingthings.ttf
   size: 64
+  r: 255
+  g: 255
+  b: 255
 main_font:
   name: fonts/kingthings.ttf
   size: 48
+  r: 255
+  g: 255
+  b: 255
 score_sound: sounds/score.ogg
 taboo_sound: sounds/taboo.ogg
 clock_sound: sounds/clock.ogg

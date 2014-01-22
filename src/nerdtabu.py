@@ -31,12 +31,12 @@ def modify_settings(settings):
 def display_scores(theme, settings):
     global screen
 
-    team = theme.score_font.render(settings.teams[0], True, (255,255,255))
-    score = theme.score_font.render(str(settings.score[0]), True, (255,255,255))
+    team = theme.score_font.render(settings.teams[0], True, theme.score_color)
+    score = theme.score_font.render(str(settings.score[0]), True, theme.score_color)
     blit_centered(theme.team_rect[0], [team, score], score.get_height()/4)
 
-    team = theme.score_font.render(settings.teams[1], True, (255,255,255))
-    score = theme.score_font.render(str(settings.score[1]), True, (255,255,255))
+    team = theme.score_font.render(settings.teams[1], True, theme.score_color)
+    score = theme.score_font.render(str(settings.score[1]), True, theme.score_color)
     blit_centered(theme.team_rect[1], [team, score], score.get_height()/4)
 
 
@@ -47,8 +47,8 @@ def team_get_ready(theme, settings, current_team):
 
     display_scores(theme, settings)
 
-    info1 = theme.main_font.render(settings.teams[current_team], True, (255,0,0))
-    info2 = theme.main_font.render("Get ready!", True, (255,0,0))
+    info1 = theme.main_font.render(settings.teams[current_team], True, theme.main_color)
+    info2 = theme.main_font.render("Get ready!", True, theme.main_color)
     blit_centered(theme.main_rect, [info1, info2], info1.get_height()/3)
 
     pygame.display.update()
@@ -69,11 +69,11 @@ def team_get_ready(theme, settings, current_team):
 def display_card(theme, settings, card):
     lines = [ ]
 
-    info = theme.main_headline_font.render(card, True, (255,255,255))
+    info = theme.main_headline_font.render(card, True, theme.main_headline_color)
     lines.append(info)
 
     for word in settings.questions[card]:
-        info = theme.main_font.render(word, True, (255,255,255))
+        info = theme.main_font.render(word, True, theme.main_color)
         lines.append(info)
 
     blit_centered(theme.main_rect, lines, info.get_height()/4)
@@ -160,11 +160,11 @@ def show_final_scores(theme, settings):
     display_scores(theme, settings)
 
     if (settings.score[0]==settings.score[1]):
-        blit_centered(theme.main_rect, [ theme.main_font.render("It's a draw!", True, (255,0,0)) ], 0)
+        blit_centered(theme.main_rect, [ theme.main_font.render("It's a draw!", True, theme.main_color) ], 0)
     else:
         winner_team = 0 if settings.score[0]>settings.score[1] else 1
-        info1 = theme.main_font.render(settings.teams[winner_team], True, (255,0,0))
-        info2 = theme.main_font.render("Congratulations!", True, (255,0,0))
+        info1 = theme.main_font.render(settings.teams[winner_team], True, theme.main_color)
+        info2 = theme.main_font.render("Congratulations!", True, theme.main_color)
         blit_centered(theme.main_rect, [ info1, info2 ], info1.get_height()/3)
 
     pygame.display.update()
