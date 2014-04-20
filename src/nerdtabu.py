@@ -163,6 +163,10 @@ def play_round(theme, settings, current_team, cards):
                         card = cards.pop()
                         repaint_round(theme, settings, card)
                         last_sec_display = -1
+                        # Unpause if paused
+                        if is_paused:
+                            is_paused = False
+                            start_time = time.time() * 1000
                     else:
                         run_loop = False
                 elif event.key==pygame.K_ESCAPE:
