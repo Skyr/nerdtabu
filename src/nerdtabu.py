@@ -62,6 +62,12 @@ def team_get_ready(theme, settings, current_team):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
                     modify_settings(settings)
+                elif event.unicode == '+':
+                    settings.timeLimit = settings.timeLimit + 5
+                    print "Admin: Round time is now %d seconds" % settings.timeLimit
+                elif event.unicode == '-':
+                    settings.timeLimit = settings.timeLimit - 5
+                    print "Admin: Round time is now %d seconds" % settings.timeLimit
                 elif event.key == pygame.K_SPACE:
                     run_loop = False
 
@@ -142,7 +148,23 @@ def play_round(theme, settings, current_team, cards):
                     is_paused = True
                     round_time_left = remaining_time
                     theme.horn_sound.play()
-                if event.key==pygame.K_SPACE or event.key==pygame.K_p:
+                if event.unicode=="1":
+                    print "Admin: Add point to team 1"
+                    settings.score[0] = settings.score[0] + 1
+                    repaint_round(theme, settings, card)
+                elif event.unicode=="!":
+                    print "Admin: Remove point from team 1"
+                    settings.score[0] = settings.score[0] - 1
+                    repaint_round(theme, settings, card)
+                elif event.unicode=="2":
+                    print "Admin: Add point to team 2"
+                    settings.score[1] = settings.score[1] + 1
+                    repaint_round(theme, settings, card)
+                elif event.unicode=="\"":
+                    print "Admin: Remove point from team 2"
+                    settings.score[1] = settings.score[1] - 1
+                    repaint_round(theme, settings, card)
+                elif event.key==pygame.K_SPACE or event.key==pygame.K_p:
                     # Pause
                     is_paused = not is_paused
                     if is_paused:
