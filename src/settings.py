@@ -18,3 +18,4 @@ class Settings:
         random.shuffle(cards)
         return cards
 
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

@@ -64,4 +64,4 @@ class Theme:
         self.clock_near_end_sound = self.load_sound("clock_near_end_sound")
         self.clock_end_sound = self.load_sound("clock_end_sound")
 
-
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
