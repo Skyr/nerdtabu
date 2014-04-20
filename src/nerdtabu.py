@@ -218,7 +218,8 @@ def main():
     # Main game loop
     pygame.init()
     if args.fullscreen:
-        screen = pygame.display.set_mode(theme.screen_size, pygame.FULLSCREEN)
+        # screen = pygame.display.set_mode(theme.screen_size, pygame.FULLSCREEN)
+        screen = pygame.display.set_mode(theme.screen_size, pygame.RESIZABLE | pygame.NOFRAME)
     else:
         screen = pygame.display.set_mode(theme.screen_size)
     theme.load_data()
