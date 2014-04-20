@@ -1,0 +1,47 @@
+screen:
+  width: 1024
+  height: 768
+team_a:
+  x: 28
+  y: 23
+  width: 306
+  height: 117
+team_b:
+  x: 689
+  y: 23
+  width: 306
+  height: 117
+main:
+  x: 26
+  y: 197
+  width: 966
+  height: 408
+countdown:
+  x: 722
+  y: 629
+  width: 277
+score_font:
+  name: fonts/kingthings.ttf
+  size: 38
+  r: 255
+  g: 255
+  b: 255
+main_headline_font:
+  name: fonts/kingthings.ttf
+  size: 51
+  r: 255
+  g: 255
+  b: 255
+main_font:
+  name: fonts/kingthings.ttf
+  size: 38
+  r: 255
+  g: 255
+  b: 255
+horn_sound: sounds/horn.ogg
+score_sound: sounds/score.ogg
+taboo_sound: sounds/taboo.ogg
+clock_sound: sounds/clock.ogg
+clock_near_end_sound: sounds/nearend.ogg
+clock_end_sound: sounds/end.ogg
+
