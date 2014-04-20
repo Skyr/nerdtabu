@@ -16,6 +16,7 @@ class Theme:
     main_headline_color = None
     main_font = None
     main_color = None
+    horn_sound = None
     score_sound = None
     taboo_sound = None
     clock_sound = None
@@ -58,6 +59,7 @@ class Theme:
         self.main_headline_color = self.get_color("main_headline_font")
         self.main_font = self.load_font("main_font")
         self.main_color = self.get_color("main_font")
+        self.horn_sound = self.load_sound("horn_sound")
         self.score_sound = self.load_sound("score_sound")
         self.taboo_sound = self.load_sound("taboo_sound")
         self.clock_sound = self.load_sound("clock_sound")

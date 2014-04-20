@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 * Metal Brushes by [Arkyrra](http://arkyrra.deviantart.com/art/Arc-s-Rivets-Metal-Brushes-63621015)
 * Texture by [markpiet](http://markpiet.deviantart.com/art/FREE-TEXTURE-METAL-1010-203041970)
 * Font "Kingthings Trypewriter" by [Kingthings](http://www.dafont.com/kingthings-trypewriter.font)
+* Air horn sound from [freesound (CC0)](http://www.freesound.org/people/guitarguy1985/sounds/68999/)
 * Applause sound from [freesound (CC0)](http://www.freesound.org/people/peridactyloptrix/sounds/196094/)
 * Boo sound [CC by unchaz](http://www.freesound.org/people/unchaz/sounds/150952/)
 * Clock tick sound [CC S+ Pogotron](http://www.freesound.org/people/Pogotron/sounds/60811/)

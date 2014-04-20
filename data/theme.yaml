@@ -38,6 +38,7 @@ main_font:
   r: 255
   g: 255
   b: 255
+horn_sound: sounds/horn.ogg
 score_sound: sounds/score.ogg
 taboo_sound: sounds/taboo.ogg
 clock_sound: sounds/clock.ogg

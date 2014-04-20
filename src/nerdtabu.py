@@ -138,6 +138,10 @@ def play_round(theme, settings, current_team, cards):
             if event.type == pygame.QUIT:
                 run_loop = False
             elif event.type == pygame.KEYDOWN:
+                if not is_paused and (event.key==pygame.K_j or event.key==pygame.K_k):
+                    is_paused = True
+                    round_time_left = remaining_time
+                    theme.horn_sound.play()
                 if event.key==pygame.K_SPACE or event.key==pygame.K_p:
                     # Pause
                     is_paused = not is_paused
