@@ -1,12 +1,10 @@
-#!/usr/bin/env python2
-
 import argparse
 import time
 
 import pygame
 
-from settings import Settings
-from theme import Theme
+from nerdtabu.settings import Settings
+from nerdtabu.theme import Theme
 
 
 screen = None
@@ -87,16 +85,18 @@ def display_card(theme, settings, card):
         # Two columns
         if len(hints) % 2 == 1:
             hints.append(theme.main_font.render("", True, theme.main_color))
-        lines = len(hints)/2
+        lines = int(len(hints)/2)
         height = guessword.get_height() + lines * (max_height + spacing)
         y_offset = (theme.main_rect.height - height)/2
         blit_centered(pygame.Rect(theme.main_rect.left, theme.main_rect.top + y_offset,
                                   theme.main_rect.width, guessword.get_height()), [guessword], 0)
         y_offset = y_offset + guessword.get_height() + spacing
         blit_centered(pygame.Rect(theme.main_rect.left, theme.main_rect.top + y_offset,
-                                  theme.main_rect.width/2, lines * (max_height + spacing)), hints[0:lines], spacing)
+                                  int(theme.main_rect.width/2), lines * (max_height + spacing)),
+                      hints[0:lines], spacing)
         blit_centered(pygame.Rect(theme.main_rect.left + theme.main_rect.width/2, theme.main_rect.top + y_offset,
-                                  theme.main_rect.width/2, lines * (max_height + spacing)), hints[lines:], spacing)
+                                  int(theme.main_rect.width/2), lines * (max_height + spacing)),
+                      hints[lines:], spacing)
     else:
         # One column
         blit_centered(theme.main_rect, [guessword] + hints, spacing)
@@ -131,7 +131,7 @@ def play_round(theme, settings, current_team, cards):
             if int(remaining_time/1000) != last_sec_display:
                 # Update time display
                 last_sec_display = int(remaining_time/1000)
-                screen.blit(theme.number[(last_sec_display/10) % 10],
+                screen.blit(theme.number[int(last_sec_display/10) % 10],
                             (theme.countdown_rect.x, theme.countdown_rect.y))
                 screen.blit(theme.number[last_sec_display % 10],
                             (theme.countdown_rect.x + theme.countdown_rect.width - number_width,
@@ -148,7 +148,7 @@ def play_round(theme, settings, current_team, cards):
             if event.type == pygame.QUIT:
                 run_loop = False
             elif event.type == pygame.KEYDOWN:
-                if not is_paused and (event.key==pygame.K_j or event.key==pygame.K_f):
+                if not is_paused and (event.key == pygame.K_j or event.key == pygame.K_f):
                     is_paused = True
                     round_time_left = remaining_time
                     theme.horn_sound.play()
@@ -195,7 +195,7 @@ def play_round(theme, settings, current_team, cards):
                             start_time = time.time() * 1000
                     else:
                         run_loop = False
-                elif event.key==pygame.K_ESCAPE:
+                elif event.key == pygame.K_ESCAPE:
                     run_loop = False
 
 
@@ -259,9 +259,5 @@ def main():
         current_team = (current_team + 1) % len(settings.teams)
     show_final_scores(theme, settings)
     pygame.quit()
-
-
-if __name__ == "__main__":
-    main()
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

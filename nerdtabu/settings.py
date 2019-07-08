@@ -13,7 +13,7 @@ class Settings:
         self.datadir = datadir
 
     def get_random_cards(self):
-        cards = self.questions.keys()
+        cards = list(self.questions.keys())
         random.shuffle(cards)
         return cards
 

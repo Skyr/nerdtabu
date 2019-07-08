@@ -1,3 +1,14 @@
+# How-to
+
+Install required dependencies using `pipenv`:
+
+    pipenv install
+
+Run the program:
+
+    pipenv run ./nerdtabu.py (...)
+
+
 # License
 
 This program is free software; you can redistribute it and/or
