@@ -8,6 +8,18 @@ Run the program:
 
     pipenv run ./nerdtabu.py (...)
 
+## Key bindings
+
+| Key | Function |
+| --- | -------- |
+| y | Correct answer |
+| n | Wrong answer (forbidden word) |
+| space | Pause |
+| 1 | Add point to team 1 |
+| ! | Subtract point from team 1 |
+| 2 | Add point to team 2 |
+| @ or " | Subtract point from team 2 |
+
 
 # License
 
