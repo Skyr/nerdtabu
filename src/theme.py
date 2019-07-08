@@ -1,13 +1,12 @@
-import random
-
 import yaml
 import pygame
 
+
 class Theme:
-    number = [ ]
-    screen_size = [0,0]
+    number = []
+    screen_size = [0, 0]
     bg = None
-    team_rect = [ ]
+    team_rect = []
     main_rect = None
     countdown_rect = None
     score_font = None
@@ -26,32 +25,32 @@ class Theme:
     def __init__(self, datadir):
         self.datadir = datadir
         self.themedata = yaml.safe_load(open("%s/theme.yaml" % datadir, 'r'))
-        self.screen_size = [ self.themedata['screen']['width'], self.themedata['screen']['height'] ]
-        self.team_rect = [ ]
+        self.screen_size = [self.themedata['screen']['width'], self.themedata['screen']['height']]
+        self.team_rect = []
         self.team_rect.append(pygame.Rect(self.themedata['team_a']['x'], self.themedata['team_a']['y'],
-                self.themedata['team_a']['width'], self.themedata['team_a']['height']))
+                                          self.themedata['team_a']['width'], self.themedata['team_a']['height']))
         self.team_rect.append(pygame.Rect(self.themedata['team_b']['x'], self.themedata['team_b']['y'],
-                self.themedata['team_b']['width'], self.themedata['team_b']['height']))
+                                          self.themedata['team_b']['width'], self.themedata['team_b']['height']))
         self.main_rect = pygame.Rect(self.themedata['main']['x'], self.themedata['main']['y'],
-                self.themedata['main']['width'], self.themedata['main']['height'])
+                                     self.themedata['main']['width'], self.themedata['main']['height'])
         self.countdown_rect = pygame.Rect(self.themedata['countdown']['x'], self.themedata['countdown']['y'],
-                self.themedata['countdown']['width'], 0)
+                                          self.themedata['countdown']['width'], 0)
 
     def load_font(self, name):
         return pygame.font.Font("%s/%s" % (self.datadir, self.themedata[name]['name']), self.themedata[name]['size'])
 
     def get_color(self, name):
-        return pygame.Color(self.themedata[name]['r'],self.themedata[name]['g'],  self.themedata[name]['b'])
+        return pygame.Color(self.themedata[name]['r'], self.themedata[name]['g'],  self.themedata[name]['b'])
 
     def load_sound(self, name):
-        return pygame.mixer.Sound(file = "%s/%s" % (self.datadir, self.themedata[name]))
+        return pygame.mixer.Sound(file="%s/%s" % (self.datadir, self.themedata[name]))
 
     def load_data(self):
-        self.number = [ ]
+        self.number = []
         for n in range(10):
-            self.number = self.number + [ pygame.image.load("%s/numbers/%d.png" % (self.datadir, n)).convert_alpha() ]
+            self.number = self.number + [pygame.image.load("%s/numbers/%d.png" % (self.datadir, n)).convert_alpha()]
         self.countdown_rect = pygame.Rect(self.countdown_rect.x, self.countdown_rect.y,
-                self.countdown_rect.width, self.number[0].get_width())
+                                          self.countdown_rect.width, self.number[0].get_width())
         self.bg = pygame.image.load("%s/screen.jpg" % self.datadir).convert()
         self.score_font = self.load_font("score_font")
         self.score_color = self.get_color("score_font")

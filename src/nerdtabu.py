@@ -42,8 +42,8 @@ def display_scores(theme, settings):
 
 def team_get_ready(theme, settings, current_team):
     global screen
-    screen.fill([0,0,0])
-    screen.blit(theme.bg, (0,0))
+    screen.fill([0, 0, 0])
+    screen.blit(theme.bg, (0, 0))
 
     display_scores(theme, settings)
 
@@ -64,44 +64,47 @@ def team_get_ready(theme, settings, current_team):
                     modify_settings(settings)
                 elif event.unicode == '+':
                     settings.timeLimit = settings.timeLimit + 5
-                    print "Admin: Round time is now %d seconds" % settings.timeLimit
+                    print("Admin: Round time is now %d seconds" % settings.timeLimit)
                 elif event.unicode == '-':
                     settings.timeLimit = settings.timeLimit - 5
-                    print "Admin: Round time is now %d seconds" % settings.timeLimit
+                    print("Admin: Round time is now %d seconds" % settings.timeLimit)
                 elif event.key == pygame.K_SPACE:
                     run_loop = False
 
 
 def display_card(theme, settings, card):
     guessword = theme.main_headline_font.render(card, True, theme.main_headline_color)
-    hints = [ ]
+    hints = []
     max_height = 0
     for word in settings.questions[card]:
         hint = theme.main_font.render(word, True, theme.main_color)
         hints.append(hint)
-        if hint.get_height()>max_height:
+        if hint.get_height() > max_height:
             max_height = hint.get_height()
     spacing = max_height / 4
 
-    if (guessword.get_height() + len(hints) * (max_height+spacing) > 0.8 * theme.main_rect.height):
+    if guessword.get_height() + len(hints) * (max_height+spacing) > 0.8 * theme.main_rect.height:
         # Two columns
-        if len(hints)%2==1:
+        if len(hints) % 2 == 1:
             hints.append(theme.main_font.render("", True, theme.main_color))
         lines = len(hints)/2
         height = guessword.get_height() + lines * (max_height + spacing)
         y_offset = (theme.main_rect.height - height)/2
-        blit_centered(pygame.Rect(theme.main_rect.left, theme.main_rect.top + y_offset, theme.main_rect.width, guessword.get_height()), [guessword], 0)
+        blit_centered(pygame.Rect(theme.main_rect.left, theme.main_rect.top + y_offset,
+                                  theme.main_rect.width, guessword.get_height()), [guessword], 0)
         y_offset = y_offset + guessword.get_height() + spacing
-        blit_centered(pygame.Rect(theme.main_rect.left, theme.main_rect.top + y_offset, theme.main_rect.width/2, lines * (max_height + spacing)), hints[0:lines], spacing)
-        blit_centered(pygame.Rect(theme.main_rect.left + theme.main_rect.width/2, theme.main_rect.top + y_offset, theme.main_rect.width/2, lines * (max_height + spacing)), hints[lines:], spacing)
+        blit_centered(pygame.Rect(theme.main_rect.left, theme.main_rect.top + y_offset,
+                                  theme.main_rect.width/2, lines * (max_height + spacing)), hints[0:lines], spacing)
+        blit_centered(pygame.Rect(theme.main_rect.left + theme.main_rect.width/2, theme.main_rect.top + y_offset,
+                                  theme.main_rect.width/2, lines * (max_height + spacing)), hints[lines:], spacing)
     else:
         # One column
         blit_centered(theme.main_rect, [guessword] + hints, spacing)
 
 
 def repaint_round(theme, settings, card):
-    screen.fill([0,0,0])
-    screen.blit(theme.bg, (0,0))
+    screen.fill([0, 0, 0])
+    screen.blit(theme.bg, (0, 0))
     display_scores(theme, settings)
     display_card(theme, settings, card)
     pygame.display.update()
@@ -125,17 +128,18 @@ def play_round(theme, settings, current_team, cards):
         if not is_paused:
             remaining_time = start_time + round_time_left - time.time() * 1000
             run_loop = (remaining_time > 0)
-            if (int(remaining_time/1000)!=last_sec_display):
+            if int(remaining_time/1000) != last_sec_display:
                 # Update time display
                 last_sec_display = int(remaining_time/1000)
-                screen.blit(theme.number[(last_sec_display/10)%10],
-                        (theme.countdown_rect.x, theme.countdown_rect.y))
-                screen.blit(theme.number[last_sec_display%10],
-                        (theme.countdown_rect.x + theme.countdown_rect.width - number_width, theme.countdown_rect.y))
+                screen.blit(theme.number[(last_sec_display/10) % 10],
+                            (theme.countdown_rect.x, theme.countdown_rect.y))
+                screen.blit(theme.number[last_sec_display % 10],
+                            (theme.countdown_rect.x + theme.countdown_rect.width - number_width,
+                             theme.countdown_rect.y))
                 pygame.display.update(theme.countdown_rect)
-                if (last_sec_display>10):
+                if last_sec_display > 10:
                     theme.clock_sound.play()
-                elif (last_sec_display==0):
+                elif last_sec_display == 0:
                     theme.clock_end_sound.play()
                 else:
                     theme.clock_sound.play()
@@ -148,31 +152,31 @@ def play_round(theme, settings, current_team, cards):
                     is_paused = True
                     round_time_left = remaining_time
                     theme.horn_sound.play()
-                if event.unicode=="1":
-                    print "Admin: Add point to team 1"
+                if event.unicode == "1":
+                    print("Admin: Add point to team 1")
                     settings.score[0] = settings.score[0] + 1
                     repaint_round(theme, settings, card)
-                elif event.unicode=="!":
-                    print "Admin: Remove point from team 1"
+                elif event.unicode == "!":
+                    print("Admin: Remove point from team 1")
                     settings.score[0] = settings.score[0] - 1
                     repaint_round(theme, settings, card)
-                elif event.unicode=="2":
-                    print "Admin: Add point to team 2"
+                elif event.unicode == "2":
+                    print("Admin: Add point to team 2")
                     settings.score[1] = settings.score[1] + 1
                     repaint_round(theme, settings, card)
-                elif event.unicode=="\"":
-                    print "Admin: Remove point from team 2"
+                elif event.unicode == "\"" or event.unicode == "@":
+                    print("Admin: Remove point from team 2")
                     settings.score[1] = settings.score[1] - 1
                     repaint_round(theme, settings, card)
-                elif event.key==pygame.K_SPACE or event.key==pygame.K_p:
+                elif event.key == pygame.K_SPACE or event.key == pygame.K_p:
                     # Pause
                     is_paused = not is_paused
                     if is_paused:
                         round_time_left = remaining_time
                     else:
                         start_time = time.time() * 1000
-                elif event.key==pygame.K_y or event.key==pygame.K_n:
-                    if event.key==pygame.K_y:
+                elif event.key == pygame.K_y or event.key == pygame.K_n:
+                    if event.key == pygame.K_y:
                         # Correct
                         settings.score[current_team] = settings.score[current_team] + 1
                         theme.score_sound.play()
@@ -180,7 +184,7 @@ def play_round(theme, settings, current_team, cards):
                         # Oops
                         settings.score[opposite_team] = settings.score[opposite_team] + 1
                         theme.taboo_sound.play()
-                    if len(cards)>0:
+                    if len(cards) > 0:
                         # Next card
                         card = cards.pop()
                         repaint_round(theme, settings, card)
@@ -198,18 +202,18 @@ def play_round(theme, settings, current_team, cards):
 def show_final_scores(theme, settings):
     global screen
 
-    screen.fill([0,0,0])
-    screen.blit(theme.bg, (0,0))
+    screen.fill([0, 0, 0])
+    screen.blit(theme.bg, (0, 0))
 
     display_scores(theme, settings)
 
-    if (settings.score[0]==settings.score[1]):
-        blit_centered(theme.main_rect, [ theme.main_font.render("It's a draw!", True, theme.main_color) ], 0)
+    if settings.score[0] == settings.score[1]:
+        blit_centered(theme.main_rect, [theme.main_font.render("It's a draw!", True, theme.main_color)], 0)
     else:
-        winner_team = 0 if settings.score[0]>settings.score[1] else 1
+        winner_team = 0 if settings.score[0] > settings.score[1] else 1
         info1 = theme.main_font.render(settings.teams[winner_team], True, theme.main_color)
         info2 = theme.main_font.render("Congratulations!", True, theme.main_color)
-        blit_centered(theme.main_rect, [ info1, info2 ], info1.get_height()/3)
+        blit_centered(theme.main_rect, [info1, info2], info1.get_height()/3)
 
     pygame.display.update()
 
@@ -236,7 +240,7 @@ def main():
     args = parser.parse_args()
     # Update settings
     settings = Settings(args.quizfile, args.datadir)
-    settings.teams = [ args.teamA, args.teamB ]
+    settings.teams = [args.teamA, args.teamB]
     theme = Theme(args.datadir)
     # Initial game data
     cards = settings.get_random_cards()
@@ -249,7 +253,7 @@ def main():
     else:
         screen = pygame.display.set_mode(theme.screen_size)
     theme.load_data()
-    while len(cards)>0:
+    while len(cards) > 0:
         team_get_ready(theme, settings, current_team)
         play_round(theme, settings, current_team, cards)
         current_team = (current_team + 1) % len(settings.teams)

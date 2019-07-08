@@ -1,13 +1,12 @@
 import random
-
 import yaml
-import pygame
+
 
 class Settings:
     timeLimit = 45
-    teams = [ "Team A", "Team B" ]
-    score = [ 0, 0 ]
-    questions = { }
+    teams = ["Team A", "Team B"]
+    score = [0, 0]
+    questions = {}
 
     def __init__(self, quizfile, datadir):
         self.questions = yaml.safe_load(quizfile)
