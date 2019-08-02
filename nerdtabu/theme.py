@@ -23,6 +23,7 @@ class Theme:
     clock_sound = None
     clock_near_end_sound = None
     clock_end_sound = None
+    title_sound = None
 
     def __init__(self, datadir):
         self.datadir = datadir
@@ -68,5 +69,7 @@ class Theme:
         self.clock_sound = self.load_sound("clock_sound")
         self.clock_near_end_sound = self.load_sound("clock_near_end_sound")
         self.clock_end_sound = self.load_sound("clock_end_sound")
+        if "title_sound" in self.themedata:
+            self.title_sound = self.load_sound("title_sound")
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

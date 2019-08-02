@@ -40,6 +40,15 @@ def display_scores(theme, settings):
 
 def show_title(theme):
     global screen
+    if theme.title_sound:
+        run_loop = True
+        while run_loop:
+            time.sleep(0.05)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or event.type == pygame.KEYDOWN:
+                    run_loop = False
+        theme.title_sound.play()
+
     screen.fill([0, 0, 0])
     screen.blit(theme.title_img, (0, 0))
     pygame.display.update()
