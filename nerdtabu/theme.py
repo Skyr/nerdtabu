@@ -1,11 +1,13 @@
 import yaml
 import pygame
+import os.path
 
 
 class Theme:
     number = []
     screen_size = [0, 0]
     bg = None
+    title_img = None
     team_rect = []
     main_rect = None
     countdown_rect = None
@@ -52,6 +54,8 @@ class Theme:
         self.countdown_rect = pygame.Rect(self.countdown_rect.x, self.countdown_rect.y,
                                           self.countdown_rect.width, self.number[0].get_width())
         self.bg = pygame.image.load("%s/screen.jpg" % self.datadir).convert()
+        if os.path.isfile("%s/title.jpg" % self.datadir):
+            self.title_img = pygame.image.load("%s/title.jpg" % self.datadir).convert()
         self.score_font = self.load_font("score_font")
         self.score_color = self.get_color("score_font")
         self.main_headline_font = self.load_font("main_headline_font")
