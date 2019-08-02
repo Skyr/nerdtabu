@@ -254,8 +254,10 @@ def main():
         screen = pygame.display.set_mode(theme.screen_size)
     theme.load_data()
     while len(cards) > 0:
+        print("%d cards remaining" % len(cards))
         team_get_ready(theme, settings, current_team)
         play_round(theme, settings, current_team, cards)
+        settings.save_state(cards)
         current_team = (current_team + 1) % len(settings.teams)
     show_final_scores(theme, settings)
     pygame.quit()
